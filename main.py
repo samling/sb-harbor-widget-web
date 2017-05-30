@@ -51,7 +51,7 @@ def index():
         hourly_forecast["wind_dir"] = wind_dir.find("span").get_text()
         hourly_forecast["wind_spd"] = wind_spd.find("span").get_text()
 
-        daily_forecast[str(i)] = hourly_forecast
+        daily_forecast[i] = hourly_forecast
         i += 1
 
     return jsonify(daily_forecast)
