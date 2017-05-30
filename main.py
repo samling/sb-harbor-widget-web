@@ -11,7 +11,7 @@ Returns a JSON dict of SB harbor wind conditions from weatherforyou.com.
 https://www.weatherforyou.com/reports/index.php?config=&forecast=pass&pass=hourly&pands=santa+barbara+harbor%2Ccalifornia&zipcode=&place=santa%20barbara%20harbor&state=ca&country=US&icao=KSBA
 """
 
-from flask import Flask
+from flask import Flask, jsonify
 from bs4 import BeautifulSoup
 import json
 import requests
@@ -51,7 +51,7 @@ def index():
         hourly_forecast["wind_dir"] = wind_dir.find("span").get_text()
         hourly_forecast["wind_spd"] = wind_spd.find("span").get_text()
 
-        daily_forecast[i] = hourly_forecast
+        daily_forecast[str(i)] = hourly_forecast
         i += 1
 
-    return json.dumps(daily_forecast)
+    return jsonify(daily_forecast)
