@@ -28,6 +28,11 @@ def index():
     daily_forecast = {}
     i = 0
 
+    location, state, country = soup.find("span", {"class": "headerText"}).get_text().split(",")
+    daily_forecast["location"] = location
+    daily_forecast["state"] = state
+    daily_forecast["country"] = country
+
     for col in soup.find_all("div", class_="hourly_cal_colwrap"):
         hourly_forecast = {}
 
@@ -49,7 +54,7 @@ def index():
         hourly_forecast["dew_pt"] = dew.find("span").get_text()
         hourly_forecast["humidity"] = humidity.find("span").get_text()
         hourly_forecast["wind_dir"] = wind_dir.find("span").get_text()
-        hourly_forecast["wind_spd"] = wind_spd.find("span").get_text()
+        hourly_forecast["wind_spd"] = wind_spd.find("span").get_text()[:-4]
 
         daily_forecast[i] = hourly_forecast
         i += 1
