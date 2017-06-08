@@ -13,13 +13,15 @@ https://www.weatherforyou.com/reports/index.php?config=&forecast=pass&pass=hourl
 
 from flask import Flask, jsonify
 from bs4 import BeautifulSoup
+from flask_cache import Cache
 import json
 import requests
 
 app = Flask(__name__)
-
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 @app.route('/')
+@cache.cached(timeout=1800) # Caching for 30 minutes
 def index():
     r = requests.get("https://www.weatherforyou.com/reports/index.php?config=&forecast=pass&pass=hourly&pands=santa+barbara+harbor%2Ccalifornia&zipcode=&place=santa%20barbara%20harbor&state=ca&country=US&icao=KSBA")
     data = r.text
